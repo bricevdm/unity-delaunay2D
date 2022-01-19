@@ -5,9 +5,10 @@
   "description": "Triangulate a serie of Vertices using Delaunay's method.",
   "unity": "2020.1",
   "dependencies": {
+	"com.wizards-republic.primitives": "0.0.1"
  },
   "author": {
-    "name": "Brice Vandemoortele",
+    "name": "Brice @ Wizards Republic",
     "email": "info@wizards-republic.com",
     "url": "http://wizards-republic.com"
   },
