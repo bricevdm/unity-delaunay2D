@@ -1,11 +1,11 @@
 {
   "name": "com.wizards-republic.unity-delaunay",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "Delaunay 2D",
   "description": "Triangulate a serie of Vertices using Delaunay's method.",
   "unity": "2020.1",
   "dependencies": {
-	"com.wizards-republic.primitives": "0.0.2"
+	"com.wizards-republic.primitives": "0.0.1"
  },
   "author": {
     "name": "Brice @ Wizards Republic",
