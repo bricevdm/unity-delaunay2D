@@ -6,7 +6,6 @@
   "unity": "2020.1",
   "unityRelease": "8f1",
   "dependencies": {
-    //"com.wizards-republic.primitives": "https://github.com/bricevdm/primitives.git"
  },
  "keywords": [
     "framework",
