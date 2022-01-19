@@ -1,0 +1,22 @@
+{
+  "name": "com.wizards-republic.delaunay2D",
+  "version": "0.0.1",
+  "displayName": "Delaunay 2D",
+  "description": "Triangulate a series of Vertices using Delaunay's method.",
+  "unity": "2020.1",
+  "unityRelease": "8f1",
+  "dependencies": {
+    "com.wizards-republic.primitives": "https://github.com/bricevdm/primitives.git"
+ },
+ "keywords": [
+    "framework",
+    "foundation"
+  ],
+  "author": {
+    "name": "Brice Vandemoortele",
+    "email": "info@wizards-republic.com",
+    "url": "http://wizards-republic.com"
+  },
+  "type": "library",
+  "hideInEditor": false
+}
