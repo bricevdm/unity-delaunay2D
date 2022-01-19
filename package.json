@@ -6,7 +6,7 @@
   "unity": "2020.1",
   "unityRelease": "8f1",
   "dependencies": {
-    "com.wizards-republic.primitives": "https://github.com/bricevdm/primitives.git"
+    //"com.wizards-republic.primitives": "https://github.com/bricevdm/primitives.git"
  },
  "keywords": [
     "framework",
@@ -17,6 +17,7 @@
     "email": "info@wizards-republic.com",
     "url": "http://wizards-republic.com"
   },
+  "license": "GPL-3.0 License",
   "type": "library",
   "hideInEditor": false
 }
