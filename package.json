@@ -17,6 +17,10 @@
     "email": "info@wizards-republic.com",
     "url": "http://wizards-republic.com"
   },
+  "repository": {
+     "type": "git",
+     "url": "ssh://git@github.com:bricevdm/unity-delaunay2D.git"
+  },
   "license": "GPL-3.0 License",
   "type": "library",
   "hideInEditor": false
