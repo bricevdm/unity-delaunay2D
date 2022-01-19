@@ -1,16 +1,11 @@
 {
-  "name": "com.wizards-republic.delaunay2D",
+  "name": "com.wizards-republic.unity-delaunay",
   "version": "0.0.1",
   "displayName": "Delaunay 2D",
-  "description": "Triangulate a series of Vertices using Delaunay's method.",
+  "description": "Triangulate a serie of Vertices using Delaunay's method.",
   "unity": "2020.1",
-  "unityRelease": "8f1",
   "dependencies": {
  },
- "keywords": [
-    "framework",
-    "foundation"
-  ],
   "author": {
     "name": "Brice Vandemoortele",
     "email": "info@wizards-republic.com",
