@@ -1,0 +1,16 @@
+{
+    "name": "WizardsRepublic.Delaunay",
+    "rootNamespace": "WizardsRepublic",
+    "references": [
+        "GUID:0340c7f9e8eac2342b82003de306b6dc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
