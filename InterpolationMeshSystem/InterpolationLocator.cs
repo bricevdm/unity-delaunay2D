@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -25,6 +26,16 @@ namespace WizardsRepublic.InterpolationMeshSystem
       return find;
     }
 
+    public bool HasData(int dataType)
+    {
+      return dict.ContainsKey(dataType);
+    }
+    
+    public void RefreshData()
+    {
+      dict = data.ToDictionary(d => d.DataType, d => d);
+    }
+
 #if UNITY_EDITOR
 
     public void SetupData<TBaseDataType>(int dataType) where TBaseDataType:IBaseData
@@ -37,7 +48,10 @@ namespace WizardsRepublic.InterpolationMeshSystem
     
     private void OnValidate()
     {
-      foreach (IBaseData d in data) d?.Setup(this);
+      if (data == null) return;
+      
+      foreach (IBaseData d in data)
+        d?.Setup(this);
     }
     
 #endif
@@ -55,7 +69,7 @@ namespace WizardsRepublic.InterpolationMeshSystem
   {
     [SerializeField] private int dataType;
     public int DataType => dataType;
-    public void Setup(InterpolationLocator locator) {}
+    public virtual void Setup(InterpolationLocator locator) {}
     public void SetDataType(int dataType) => this.dataType = dataType;
   }
   
@@ -66,7 +80,7 @@ namespace WizardsRepublic.InterpolationMeshSystem
     
     public static Color Interpolate(Vector3 coord, ColorData a, ColorData b, ColorData c)
       => coord.x * a.color + coord.y * b.color + coord.z * c.color;    
-  } 
+  }
   
   [Serializable]
   public class FloatData : AInterpolationData

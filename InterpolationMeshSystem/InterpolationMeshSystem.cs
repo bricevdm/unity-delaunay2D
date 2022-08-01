@@ -16,8 +16,8 @@ namespace WizardsRepublic.InterpolationMeshSystem
   [ExecuteInEditMode]
   public class InterpolationMeshSystem : MonoBehaviour
   {
-    [ShowInInspector] private Transform ProjectionTransform { get; set; }
-
+    [ShowInInspector, SuffixLabel("Not Serialized, use Setup()")] 
+    public Transform ProjectionTransform { get; private set; }
 
     [ShowInInspector, ReadOnly] private Triangle[] triangles;
 
@@ -28,36 +28,10 @@ namespace WizardsRepublic.InterpolationMeshSystem
     {
       this.ProjectionTransform = projectionTransform;
     }
-
-    public void Refresh()
+    
+    [PublicAPI]
+    public void ComputeMesh(IEnumerable<InterpolationLocator> locators)
     {
-      ComputeMesh();
-    }
-
-    public TType GetInterpolatedData<TType, TData>(Transform projectionTransform, Vector3 point, int dataType) where TData : AInterpolationData
-    {
-      Triangle triangle = GetClosestTriangleFromProjectedPoint(projectionTransform, point);
-      return (TType)triangle.GetInterpolatedData<TData>(projectionTransform, point, dataType);
-    }
-
-    private Triangle GetClosestTriangleFromProjectedPoint(Transform projectionTransform, Vector3 point)
-    {
-      Vector3 projectedFocus = point.GetProjectedPosition(projectionTransform);
-      return triangles.OrderBy(p => Vector3.SqrMagnitude(p.Incenter - projectedFocus)).First();
-    }
-
-#if UNITY_EDITOR
-
-    private void Update()
-    {
-      ComputeMesh();
-    }
-
-    [Button]
-    private void ComputeMesh()
-    {
-      var locators = GetComponentsInChildren<InterpolationLocator>(false);
-      
       Vertices.Clear();
 
       foreach (var loc in locators)
@@ -74,21 +48,45 @@ namespace WizardsRepublic.InterpolationMeshSystem
       triangles = delaunay.Triangles.ConvertAll(t => new Triangle(t.A, t.B, t.C)).ToArray();
     }
     
-#endif
+    [PublicAPI]
+    public TType GetInterpolatedData<TType, TData>(Vector3 point, int dataType) where TData : AInterpolationData
+    {
+      Triangle triangle = GetClosestTriangleFromProjectedPoint(point);
+      return (TType)triangle.GetInterpolatedData<TData>(ProjectionTransform, point, dataType);
+    }
+
+    [PublicAPI]
+    public Vector3 GetClosestPointToMesh(Vector3 point)
+    {
+      Triangle triangle = GetClosestTriangleFromProjectedPoint(point);
+      return point.GetClosestPointToTriangle(triangle.A.Position, triangle.B.Position, triangle.C.Position, out _);
+    }
+
+    private Triangle GetClosestTriangleFromProjectedPoint(Vector3 point)
+    {
+      Vector3 projectedFocus = point.GetProjectedPosition(ProjectionTransform);
+      return triangles.OrderBy(p => Vector3.SqrMagnitude(p.Incenter - projectedFocus)).First();
+    }
 
     [CustomEditor(typeof(InterpolationMeshSystem))]
     public class InterpolationMeshSystemEditor : OdinEditor
     {
       private void OnSceneGUI()
       {
-        var s = (InterpolationMeshSystem)target;
+        var meshSystem = (InterpolationMeshSystem)target;
 
-        if (s.triangles == null) return;
-        if (s.ProjectionTransform == null) return;
+        DrawMeshGizmos(meshSystem);
+      }
 
-        Handles.matrix = s.ProjectionTransform.localToWorldMatrix;
-        
-        foreach (Triangle triangle in s.triangles)
+      [PublicAPI]
+      public static void DrawMeshGizmos(InterpolationMeshSystem system)
+      {
+        if (system.triangles == null) return;
+        if (system.ProjectionTransform == null) return;
+
+        Handles.matrix = system.ProjectionTransform.localToWorldMatrix;
+
+        foreach (Triangle triangle in system.triangles)
         {
           Vector3 a = triangle.A.Position;
           Vector3 b = triangle.B.Position;
@@ -98,16 +96,16 @@ namespace WizardsRepublic.InterpolationMeshSystem
           Handles.DrawLine(a, b);
           Handles.DrawLine(a, c);
           Handles.DrawLine(b, c);
-          
+
           Handles.color = new Color(1f, 1f, 1f, 0.1f);
           Handles.DrawWireDisc(triangle.Incenter, new Plane(a, b, c).normal, triangle.Radius);
         }
 
-        foreach (Vertex vertex in s.Vertices)
+        foreach (Vertex vertex in system.Vertices)
         {
           Handles.color = Color.red;
           Vector3 position = ((Vertex<InterpolationLocator>)vertex).Item.transform.position;
-          Vector3 projPos = s.ProjectionTransform.InverseTransformPoint(position);
+          Vector3 projPos = system.ProjectionTransform.InverseTransformPoint(position);
           Handles.DrawLine(vertex.Position, projPos);
         }
       }

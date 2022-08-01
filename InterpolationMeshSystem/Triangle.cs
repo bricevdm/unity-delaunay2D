@@ -5,7 +5,7 @@ using WizardsRepublic.Primitives;
 
 namespace WizardsRepublic.InterpolationMeshSystem
 {
-  internal class Triangle : WizardsRepublic.Primitives.Triangle
+  public class Triangle : WizardsRepublic.Primitives.Triangle
   {
     [ShowInInspector] private InterpolationLocator vertexA, vertexB, vertexC;
 
